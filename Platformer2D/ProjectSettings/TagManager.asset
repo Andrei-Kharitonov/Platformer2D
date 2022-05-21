@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cherry
+  - Start
+  - Trap
   layers:
   - Default
   - TransparentFX
@@ -41,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 1517943987
+    locked: 0
+  - name: Chekpoint
+    uniqueID: 1275125511
     locked: 0
   - name: Default
     uniqueID: 0

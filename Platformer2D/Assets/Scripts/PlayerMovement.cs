@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprite;
     private float dirX = 0f;
+    private bool isDeath = false;
 
     [SerializeField] private LayerMask jumpableGround;
 
@@ -20,7 +21,8 @@ public class PlayerMovement : MonoBehaviour
         idle,
         running,
         jumping,
-        falling
+        falling,
+        hit
     }
     private MovementState state = MovementState.idle;
 
@@ -30,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+
+        SetStartPlayerPos();
     }
 
     void Update()
@@ -73,11 +77,31 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.falling;
         }
 
+        if (isDeath)
+        {
+            state = MovementState.hit;
+        }
+
         anim.SetInteger("state", (int)state);
     }
 
     private bool IsGrounded()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+    }
+
+    static public void SetStartPlayerPos()
+    {
+        float startPosX = GameObject.FindGameObjectWithTag("Start").transform.position.x;
+        float startPosY = GameObject.FindGameObjectWithTag("Start").transform.position.y;
+        GameObject.FindGameObjectWithTag("Player").transform.position = new Vector2(startPosX + 0.7f, startPosY + -0.5f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Trap"))
+        {
+            isDeath = true;
+        }
     }
 }
