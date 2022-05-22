@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class PlayerDeath : MonoBehaviour
 {
-    [SerializeField] private Text diedText;
+    [SerializeField] private GameObject diedText;
+    private bool isDied = false;
 
     private void Update()
     {
+        if (isDied) Time.timeScale = 0;
         Restart();
     }
 
@@ -17,7 +19,8 @@ public class PlayerDeath : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
-            diedText.text = "YOU DIED\n \nPress R to restart";
+            isDied = true;
+            diedText.SetActive(true);
             Time.timeScale = 0;
         }
     }
@@ -27,7 +30,7 @@ public class PlayerDeath : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Time.timeScale = 1;
-            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

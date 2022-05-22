@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,11 @@ public class FinishController : MonoBehaviour
 {
     private bool isWin = false;
 
-    [SerializeField] private Text WinText;
+    [SerializeField] private GameObject WinText;
 
     private void Update()
     {
+        if (isWin) Time.timeScale = 0;
         NextLevel();
     }
 
@@ -19,7 +21,7 @@ public class FinishController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            WinText.text = "YOU WIN!\n \nPress N to go on next level";
+            WinText.SetActive(true);
             isWin = true;
             Time.timeScale = 0;
         }
@@ -30,7 +32,7 @@ public class FinishController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N) && isWin)
         {
             Time.timeScale = 1;
-            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }
