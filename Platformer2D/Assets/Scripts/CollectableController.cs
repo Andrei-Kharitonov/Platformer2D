@@ -5,9 +5,15 @@ using UnityEngine.UI;
 
 public class CollectableController : MonoBehaviour
 {
-    private int cherriesCount = 0;
+    public int cherriesCount = 0;
     [SerializeField] private Text countText;
     [SerializeField] private float destroyDelay = 0.5f;
+
+    private void Start()
+    {
+        cherriesCount = PlayerPrefs.GetInt("cherriesCount");
+        countText.text = $"Cherries: {cherriesCount}";
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,6 +21,7 @@ public class CollectableController : MonoBehaviour
         {
             cherriesCount++;
             countText.text = $"Cherries: {cherriesCount}";
+            PlayerPrefs.SetInt("cherriesCount", cherriesCount);
             StartCoroutine(DestroyItem(collision));
         }
     }

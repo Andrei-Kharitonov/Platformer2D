@@ -27,10 +27,11 @@ public class PlayerDeath : MonoBehaviour
 
     private void Restart()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (isDied && Input.GetKeyDown(KeyCode.R))
         {
             Time.timeScale = 1;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            PlayerPrefs.SetInt("cherriesCount", 0);
+            SceneManager.LoadScene(0);
         }
     }
 }
